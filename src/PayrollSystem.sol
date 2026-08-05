@@ -5,8 +5,9 @@ import {SafeERC20} from "lib/openzeppelin-contracts/contracts/token/ERC20/utils/
 import {ECDSA} from "lib/openzeppelin-contracts/contracts/utils/cryptography/ECDSA.sol";
 import {IERC20} from "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 import {EIP712} from "lib/openzeppelin-contracts/contracts/utils/cryptography/EIP712.sol";
+import {Ownable} from "lib/openzeppelin-contracts/contracts/access/Ownable.sol";
 
-contract GaslessPayrollSystem is EIP712{
+contract GaslessPayrollSystem is EIP712,Ownable{
     using ECDSA for bytes32;
     using SafeERC20 for IERC20;
     
@@ -36,7 +37,7 @@ contract GaslessPayrollSystem is EIP712{
 
    event SalaryClaimed(address employeeId,uint256 amount,string month,uint256 nonce,uint256 deadline);
 
-   constructor(address _usdc) EIP712("GaslessPayrollSystem","1"){
+   constructor(address _usdc) EIP712("GaslessPayrollSystem","1") Ownable(msg.sender){
     hrManager = msg.sender;
     usdc = IERC20( _usdc);
    }
@@ -85,4 +86,11 @@ contract GaslessPayrollSystem is EIP712{
    }
 
 
+}
+
+contract Harness is GaslessPayrollSystem{
+    constructor(address usdc) GaslessPayrollSystem(usdc){}
+    function hashEmployeePay(address _employeeId,uint256 _amount,string memory _month,uint256 _nonce,uint256 _deadline) external view returns (bytes32){
+        return _hashEmployeePay(_employeeId, _amount, _month, _nonce, _deadline);
+    }
 }

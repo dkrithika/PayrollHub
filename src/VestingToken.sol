@@ -9,16 +9,16 @@ contract VestingToken is Ownable {
    
    using SafeERC20 for IERC20;
   
-    error VestingToken__InvalidId();
-    error VestingToken__CanClaimEveryThreeMonths();
+    error VestingToken__InvalidId(); //done
+    error VestingToken__CanClaimEveryThreeMonths();//done
     error VestingToken__OnlyOwnerHaveAccess();
-    error VestingToken__AlreadyEnteredTheOrganisation();
-    error VestingToken__YouArentPartOfTheOrganisation();
-    error VestingToken__YouArentActiveParticipant();
+    error VestingToken__AlreadyEnteredTheOrganisation();//done
+    error VestingToken__YouArentPartOfTheOrganisation(); //done
+    error VestingToken__YouArentActiveParticipant();//done
    error VestingToken__NothingToClaim();
-   error VestingToken__ZeroBalance();
+   error VestingToken__ZeroBalance();//done
    error VestingToken__CantClaimBeforeCliffTime();
-   error VestingToken__InvalidDuration();
+   error VestingToken__InvalidDuration();//done
 
 
     struct ExecutiveVestingSchedule {
@@ -84,6 +84,7 @@ contract VestingToken is Ownable {
     function claim(address _executiveId) public{
     //Let's the person claim his tokens after a certain period
     uint256 threeMonths = 90 days;
+    if(msg.sender != _executiveId) revert VestingToken__InvalidId();
     if(_executiveId != vestingSchedules[_executiveId].executiveId){
         revert VestingToken__YouArentPartOfTheOrganisation();
     }

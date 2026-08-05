@@ -217,18 +217,25 @@ contract VestingTokenTest is Test{
     vm.stopPrank();
    }
 
-   /*function test_ClaimEveryThreeMonths() public{
+   function test_ClaimEveryThreeMonths() public{
     uint256 startTime = block.timestamp;
     vm.startPrank(OWNER);
     vesting.enterOrganisation(USER, VESTING_DURATION, CLIFF_DURATION,TOTAL_AMOUNT);
     vm.stopPrank();
 
-    vm.warp(CLIFF_DURATION + 1 days);
+    vm.warp(CLIFF_DURATION + startTime);
 
     vm.startPrank(USER);
     vesting.claim(USER);
     vm.stopPrank();
-   }*/
+
+    vm.warp(CLIFF_DURATION + 30 days);
+     vm.startPrank(USER);
+     vm.expectRevert(VestingToken.VestingToken__CanClaimEveryThreeMonths.selector);
+    vesting.claim(USER);
+    vm.stopPrank();
+
+   }
 
    function testClawback() public{
      vm.startPrank(OWNER);

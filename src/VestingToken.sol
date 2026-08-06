@@ -9,16 +9,16 @@ contract VestingToken is Ownable {
    
    using SafeERC20 for IERC20;
   
-    error VestingToken__InvalidId(); //done
-    error VestingToken__CanClaimEveryThreeMonths();//done
+    error VestingToken__InvalidId(); 
+    error VestingToken__CanClaimEveryThreeMonths();
     error VestingToken__OnlyOwnerHaveAccess();
-    error VestingToken__AlreadyEnteredTheOrganisation();//done
-    error VestingToken__YouArentPartOfTheOrganisation(); //done
-    error VestingToken__YouArentActiveParticipant();//done
+    error VestingToken__AlreadyEnteredTheOrganisation();
+    error VestingToken__YouArentPartOfTheOrganisation(); 
+    error VestingToken__YouArentActiveParticipant();
    error VestingToken__NothingToClaim();
-   error VestingToken__ZeroBalance();//done
+   error VestingToken__ZeroBalance();
    error VestingToken__CantClaimBeforeCliffTime();
-   error VestingToken__InvalidDuration();//done
+   error VestingToken__InvalidDuration();
    
 
 

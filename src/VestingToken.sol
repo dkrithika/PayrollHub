@@ -19,6 +19,7 @@ contract VestingToken is Ownable {
    error VestingToken__ZeroBalance();//done
    error VestingToken__CantClaimBeforeCliffTime();
    error VestingToken__InvalidDuration();//done
+   
 
 
     struct ExecutiveVestingSchedule {
@@ -144,12 +145,19 @@ contract VestingToken is Ownable {
             revert VestingToken__YouArentActiveParticipant();
          }
          uint256 unclaimedVested = 0;
-        
-        uint256 timeElapsed = block.timestamp - schedule.startTime;
-        uint256 totalVestingTime = schedule.endTime - schedule.startTime;
-        uint256 totalVested = (schedule.totalAmount * timeElapsed) / totalVestingTime;
-         unclaimedVested = totalVested - schedule.amountClaimed;
-        uint256 LockedAmount = schedule.totalAmount - totalVested;
+        uint256 LockedAmount;
+
+    if (block.timestamp < schedule.cliffTime) {
+    unclaimedVested = 0;
+    LockedAmount = schedule.totalAmount;
+     } else {
+    uint256 timeElapsed = block.timestamp - schedule.startTime;
+    uint256 totalVestingTime = schedule.endTime - schedule.startTime;
+    uint256 totalVested = (schedule.totalAmount * timeElapsed) / totalVestingTime;
+
+    unclaimedVested = totalVested - schedule.amountClaimed;
+    LockedAmount = schedule.totalAmount - totalVested;
+        }
         
          if(unclaimedVested == 0 && LockedAmount ==0){
             revert VestingToken__ZeroBalance();

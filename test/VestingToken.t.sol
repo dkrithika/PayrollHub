@@ -153,9 +153,25 @@ contract VestingTokenTest is Test{
    function test_YouArentPartOfTheOrganisation() public{
    vm.startPrank(USER);
    vm.expectRevert(VestingToken.VestingToken__YouArentPartOfTheOrganisation.selector);
-   vesting.claim(ANOTHERUSER);
+   vesting.claim(USER);
    vm.stopPrank();
    }
+
+   function test_RevertIfInvalidUser() public {
+      vm.prank(OWNER);
+    vesting.enterOrganisation(
+        USER,
+        VESTING_DURATION,
+        CLIFF_DURATION,
+        TOTAL_AMOUNT
+    );
+    vm.startPrank(ANOTHERUSER);
+
+    vm.expectRevert(VestingToken.VestingToken__InvalidId.selector);
+    vesting.claim(USER);
+
+    vm.stopPrank();
+}
 
    function test_IfInactiveAfterClawback() public{
     vm.startPrank(OWNER);
@@ -236,6 +252,52 @@ contract VestingTokenTest is Test{
     vm.stopPrank();
 
    }
+   function test_ClaimAfterVestingEnds() public{
+    uint256 startTime = block.timestamp;
+    uint256 endTime = startTime + VESTING_DURATION;
+    vm.startPrank(OWNER);
+     vesting.enterOrganisation(USER, VESTING_DURATION, CLIFF_DURATION,TOTAL_AMOUNT);
+     vm.stopPrank();
+
+     vm.warp(endTime);
+     vm.startPrank(USER);
+     vesting.claim(USER);
+     vm.stopPrank();
+
+      (
+        ,
+        ,
+        ,
+        ,
+        ,
+        uint256 newAmountClaimed,
+        uint256 newLastClaimedTime,
+        bool newIsActive) = vesting.vestingSchedules(USER);
+
+     assertEq(token.balanceOf(USER),TOTAL_AMOUNT);
+     assertEq(newAmountClaimed,TOTAL_AMOUNT);
+     assertEq(newLastClaimedTime,endTime);
+     assertTrue(newIsActive);
+     
+   }
+   function test_revertIfNothingToClaim() public{
+     uint256 startTime = block.timestamp;
+    uint256 endTime = startTime + VESTING_DURATION;
+    vm.startPrank(OWNER);
+     vesting.enterOrganisation(USER, VESTING_DURATION, CLIFF_DURATION,TOTAL_AMOUNT);
+     vm.stopPrank();
+
+     vm.warp(endTime);
+     vm.startPrank(USER);
+     vesting.claim(USER);
+    
+     vm.warp(endTime + 91 days);
+
+     vm.startPrank(USER);
+     vm.expectRevert(VestingToken.VestingToken__NothingToClaim.selector);
+     vesting.claim(USER);
+     vm.stopPrank();
+   }
 
    function testClawback() public{
      vm.startPrank(OWNER);
@@ -280,5 +342,24 @@ contract VestingTokenTest is Test{
     vesting.enterOrganisation(USER, VESTING_DURATION, CLIFF_DURATION,TOTAL_AMOUNT);
     vm.stopPrank();
     
+   }
+   function test_clawbackBeforeCliff() public{
+    uint256 startTime = block.timestamp;
+    
+     vm.startPrank(OWNER);
+     vesting.enterOrganisation(USER, VESTING_DURATION, CLIFF_DURATION,TOTAL_AMOUNT);
+     vm.stopPrank();
+
+     vm.warp(startTime + 7 days);
+
+     vm.startPrank(OWNER);
+     vesting.clawback(USER);
+     vm.stopPrank();
+      VestingToken.ExecutiveVestingSchedule memory schedule = vesting.getVestingSchedule(USER);
+
+     assertEq(token.balanceOf(USER),0);
+     assertEq(schedule.isActive,false);
+     
+
    }
 }

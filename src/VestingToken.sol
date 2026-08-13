@@ -6,22 +6,18 @@ import {Ownable} from "lib/openzeppelin-contracts/contracts/access/Ownable.sol";
 import {IERC20} from "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 
 contract VestingToken is Ownable {
-   
-   using SafeERC20 for IERC20;
-  
-    error VestingToken__InvalidId(); 
+    using SafeERC20 for IERC20;
+
+    error VestingToken__InvalidId();
     error VestingToken__CanClaimEveryThreeMonths();
     error VestingToken__OnlyOwnerHaveAccess();
     error VestingToken__AlreadyEnteredTheOrganisation();
-    error VestingToken__YouArentPartOfTheOrganisation(); 
+    error VestingToken__YouArentPartOfTheOrganisation();
     error VestingToken__YouArentActiveParticipant();
-   error VestingToken__NothingToClaim();
-   error VestingToken__ZeroBalance();
-   error VestingToken__CantClaimBeforeCliffTime();
-   error VestingToken__InvalidDuration();
-   
-
-  
+    error VestingToken__NothingToClaim();
+    error VestingToken__ZeroBalance();
+    error VestingToken__CantClaimBeforeCliffTime();
+    error VestingToken__InvalidDuration();
 
     struct ExecutiveVestingSchedule {
         address executiveId;

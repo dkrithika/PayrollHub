@@ -43,6 +43,49 @@ Payroll Smart Contract
     └── Transfer ERC-20 tokens
 ```
 
+## Getting Started
+
+### Prerequisites
+
+- Foundry installed
+- Node.js and npm installed
+- MetaMask browser wallet
+- Sepolia ETH for test transactions
+- Environment variables set in `.env`
+
+### Installation
+
+
+```bash
+git clone https://github.com/dkrithika/PayrollHub
+cd PayrollHub
+forge install
+forge build
+```
+
+## Compile and Test
+
+```bash
+forge build
+forge test -vv
+forge coverage
+```
+
+
+## Deployment
+
+Deploy the NFT contract and escrow contract using Foundry scripts:
+
+```bash
+forge script script/DeployPayrollSystem.s.sol:DeployPayrollSystem 
+  --rpc-url $SEPOLIA_RPC_URL 
+  --broadcast
+
+forge script script/DeployVestingTokens.s.sol:DeployVestingTokens
+  --rpc-url $SEPOLIA_RPC_URL 
+  --broadcast
+```
+
 ## FEATURES
 
 ### Gasless Payroll

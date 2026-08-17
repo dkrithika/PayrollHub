@@ -1,66 +1,43 @@
-## Foundry
+# Web3 Payroll System
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+A decentralized payroll system for Web3 organizations that enables secure employee salary payments using ERC-20 tokens and EIP-712 off-chain authorization.
 
-Foundry consists of:
+The system is designed around two payroll models:
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+- **Token Vesting Engine** — for founders and executives with time-based token vesting.
+- **Gasless Payroll Engine** — for regular employees who can claim their salary using an HR-authorized EIP-712 signature.
 
-## Documentation
+---
 
-https://book.getfoundry.sh/
+## Overview
 
-## Usage
+Traditional crypto payroll can require the payroll administrator to submit individual transactions for employees, resulting in unnecessary gas costs and manual work.
 
-### Build
+This project explores a different approach using **EIP-712 typed-data signatures**.
 
-```shell
-$ forge build
-```
+Instead of HR directly sending a salary transaction, HR authorizes an employee's payment off-chain. The employee then submits the signed authorization to the smart contract, which verifies the HR signature before transferring the ERC-20 salary.
 
-### Test
+### Gasless Payroll Flow
 
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+```text
+HR Manager
+    │
+    │ EIP-712 signature
+    │ (off-chain)
+    ▼
+Payroll Authorization
+    │
+    │ signature
+    ▼
+Employee
+    │
+    │ claimSalary()
+    ▼
+Payroll Smart Contract
+    │
+    ├── Verify employee
+    ├── Check nonce
+    ├── Check deadline
+    ├── Recover HR signer
+    ├── Verify HR authorization
+    └── Transfer ERC-20 tokens

@@ -154,9 +154,7 @@ The payroll contract has been deployed to Sepolia.
 
 ### GaslessPayrollSystem
 
-```text
-0xA49a53FdDA78541CcaC01e717aE95b074A1AF77a
-```
+[View on etherscan](https://sepolia.etherscan.io/address/0xA49a53FdDA78541CcaC01e717aE95b074A1AF77a)
 
 The deployed contract has been tested with an end-to-end EIP-712 payroll claim.
 
@@ -226,4 +224,15 @@ This project helped me develop practical experience with:
 ## Disclaimer
 
 This project is an educational/testnet implementation and is not intended for production payroll or custody of real funds.
+
+## License
+
+MIT License
+
+## Contact
+
+
+- Name: Krithika Damshala
+- GitHub: https://github.com/dkrithika
+
 

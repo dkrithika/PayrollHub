@@ -74,7 +74,7 @@ forge coverage
 
 ## Deployment
 
-Deploy the NFT contract and escrow contract using Foundry scripts:
+Deploy the VestingTokens and PayrollSystem contract using Foundry scripts:
 
 ```bash
 forge script script/DeployPayrollSystem.s.sol:DeployPayrollSystem 
@@ -154,7 +154,7 @@ The contract verifies that the caller is the employee specified in the signed pa
 
 ### ERC-20 Safety
 
-Token transfers use OpenZeppelin's ```text SafeERC20``` implementation.
+Token transfers use OpenZeppelin's `SafeERC20` implementation.
 
 ## Testing
 
@@ -176,7 +176,7 @@ The testing strategy focuses on both expected behavior and adversarial/invalid i
 
 ## Technology Stack
 ### Smart Contracts
-- Solidity```text^0.8.30```
+- Solidity`^0.8.30`
 - Foundry
 - OpenZeppelin Contracts
 

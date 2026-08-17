@@ -41,3 +41,6 @@ Payroll Smart Contract
     ├── Recover HR signer
     ├── Verify HR authorization
     └── Transfer ERC-20 tokens
+```text
+
+## FEATURES

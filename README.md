@@ -95,7 +95,7 @@ forge script script/DeployVestingTokens.s.sol:DeployVestingTokens
 - Replay protection using nonces
 - Signature expiration using deadlines
 - ERC-20 salary payments
-- Safe ERC-20transfers using OpenZeppelin ```text SafeERC20```
+- Safe ERC-20transfers using OpenZeppelin `SafeERC20`
 - Custom errors for gas-efficient failure handling
 
 ### Token Vesting

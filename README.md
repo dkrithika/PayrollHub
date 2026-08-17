@@ -5,7 +5,7 @@ A decentralized payroll system for Web3 organizations that enables secure employ
 The system is designed around two payroll models:
 
 - **Token Vesting Engine** — for founders and executives with time-based token vesting.
-- **Gasless Payroll Engine** — for regular employees who can claim their salary using an HR-authorized EIP-712 signature.
+- **Payroll Engine** — for regular employees who can claim their salary using an HR-authorized EIP-712 signature.
 
 ---
 
@@ -187,4 +187,43 @@ claimSalary(
 ```
 
 The contract verifies the signature and transfers the salary if all conditions are satisfied
+
+## Future Improvements
+
+The current implementation focuses on secure individual payroll authorizations.
+
+Potential future improvements include:
+
+Batch payroll execution
+Single-signature authorization for an entire payroll batch
+Merkle-tree based payroll commitments
+Automated payroll execution through a relayer
+Multi-signature HR authorization
+Role-based payroll administration
+Additional token and stablecoin support
+Production-grade access control and treasury management
+
+These are intentionally left as future improvements rather than adding complexity before the underlying mechanisms are thoroughly tested.
+
+## What I Learned
+
+This project helped me develop practical experience with:
+
+- Designing Solidity smart contracts
+- EIP-712 typed-data signing
+- ECDSA signature recovery
+- Replay attack prevention
+- Signature expiration
+- ERC-20 token interactions
+- OpenZeppelin security utilities
+- Foundry testing
+- Fuzz testing
+- Integration testing
+- Viem contract interaction
+- Debugging deployed smart contracts
+- Designing systems where off-chain authorization interacts with on-chain verification
+
+## Disclaimer
+
+This project is an educational/testnet implementation and is not intended for production payroll or custody of real funds.
 
